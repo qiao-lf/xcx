@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/myxcx/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectResources">
+    <resource url="http://mybatis.org/dtd/mybatis-3-config.dtd" location="$PROJECT_DIR$/../下载/JavaWeb/中期项目/mybatis的相关dtd及路径/mybatis-3-config.dtd" />
+    <resource url="http://mybatis.org/dtd/mybatis-3-mapper.dtd" location="$PROJECT_DIR$/../下载/JavaWeb/中期项目/mybatis的相关dtd及路径/mybatis-3-mapper.dtd" />
+  </component>
+  <component name="ProjectRootManager">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

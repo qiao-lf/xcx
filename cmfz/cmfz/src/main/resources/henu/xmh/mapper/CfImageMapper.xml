@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="henu.xmh.dao.CfImageMapper" >
+  <resultMap id="BaseResultMap" type="henu.xmh.pojo.CfImage" >
+    <id column="image_id" property="imageId" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="new_name" property="newName" jdbcType="VARCHAR" />
+    <result column="image_status" property="imageStatus" jdbcType="VARCHAR" />
+    <result column="image_dir" property="imageDir" jdbcType="VARCHAR" />
+    <result column="image_summary" property="imageSummary" jdbcType="VARCHAR" />
+    <result column="image_href" property="imageHref" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    image_id, org_name, new_name, image_status, image_dir, image_summary, image_href
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="henu.xmh.pojo.CfImageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cf_image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="beginValue!=null">
+      limit #{beginValue},#{pageSize}
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from cf_image
+    where image_id = #{imageId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from cf_image
+    where image_id = #{imageId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="henu.xmh.pojo.CfImageExample" >
+    delete from cf_image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="henu.xmh.pojo.CfImage" >
+    insert into cf_image (image_id, org_name, new_name, 
+      image_status, image_dir, image_summary, 
+      image_href)
+    values (#{imageId,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, #{newName,jdbcType=VARCHAR}, 
+      #{imageStatus,jdbcType=VARCHAR}, #{imageDir,jdbcType=VARCHAR}, #{imageSummary,jdbcType=VARCHAR}, 
+      #{imageHref,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="henu.xmh.pojo.CfImage" >
+    insert into cf_image
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="imageId != null" >
+        image_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="newName != null" >
+        new_name,
+      </if>
+      <if test="imageStatus != null" >
+        image_status,
+      </if>
+      <if test="imageDir != null" >
+        image_dir,
+      </if>
+      <if test="imageSummary != null" >
+        image_summary,
+      </if>
+      <if test="imageHref != null" >
+        image_href,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="imageId != null" >
+        #{imageId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="newName != null" >
+        #{newName,jdbcType=VARCHAR},
+      </if>
+      <if test="imageStatus != null" >
+        #{imageStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="imageDir != null" >
+        #{imageDir,jdbcType=VARCHAR},
+      </if>
+      <if test="imageSummary != null" >
+        #{imageSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="imageHref != null" >
+        #{imageHref,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="henu.xmh.pojo.CfImageExample" resultType="java.lang.Integer" >
+    select count(*) from cf_image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cf_image
+    <set >
+      <if test="record.imageId != null" >
+        image_id = #{record.imageId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgName != null" >
+        org_name = #{record.orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newName != null" >
+        new_name = #{record.newName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageStatus != null" >
+        image_status = #{record.imageStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageDir != null" >
+        image_dir = #{record.imageDir,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageSummary != null" >
+        image_summary = #{record.imageSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageHref != null" >
+        image_href = #{record.imageHref,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cf_image
+    set image_id = #{record.imageId,jdbcType=VARCHAR},
+      org_name = #{record.orgName,jdbcType=VARCHAR},
+      new_name = #{record.newName,jdbcType=VARCHAR},
+      image_status = #{record.imageStatus,jdbcType=VARCHAR},
+      image_dir = #{record.imageDir,jdbcType=VARCHAR},
+      image_summary = #{record.imageSummary,jdbcType=VARCHAR},
+      image_href = #{record.imageHref,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="henu.xmh.pojo.CfImage" >
+    update cf_image
+    <set >
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="newName != null" >
+        new_name = #{newName,jdbcType=VARCHAR},
+      </if>
+      <if test="imageStatus != null" >
+        image_status = #{imageStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="imageDir != null" >
+        image_dir = #{imageDir,jdbcType=VARCHAR},
+      </if>
+      <if test="imageSummary != null" >
+        image_summary = #{imageSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="imageHref != null" >
+        image_href = #{imageHref,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where image_id = #{imageId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="henu.xmh.pojo.CfImage" >
+    update cf_image
+    set org_name = #{orgName,jdbcType=VARCHAR},
+      new_name = #{newName,jdbcType=VARCHAR},
+      image_status = #{imageStatus,jdbcType=VARCHAR},
+      image_dir = #{imageDir,jdbcType=VARCHAR},
+      image_summary = #{imageSummary,jdbcType=VARCHAR},
+      image_href = #{imageHref,jdbcType=VARCHAR}
+    where image_id = #{imageId,jdbcType=VARCHAR}
+  </update>
+</mapper>

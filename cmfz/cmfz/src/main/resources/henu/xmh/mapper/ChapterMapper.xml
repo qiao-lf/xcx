@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="henu.xmh.dao.ChapterMapper" >
+  <resultMap id="BaseResultMap" type="henu.xmh.pojo.Chapter" >
+    <id column="chapter_id" property="chapterId" jdbcType="VARCHAR" />
+    <result column="voiceURL" property="voiceurl" jdbcType="VARCHAR" />
+    <result column="album_id" property="albumId" jdbcType="VARCHAR" />
+    <result column="chapter_name" property="chapterName" jdbcType="VARCHAR" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
+    <result column="time_long" property="timeLong" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    chapter_id, voiceURL, album_id, chapter_name, size, time_long
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="henu.xmh.pojo.ChapterExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from chapter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from chapter
+    where chapter_id = #{chapterId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from chapter
+    where chapter_id = #{chapterId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="henu.xmh.pojo.ChapterExample" >
+    delete from chapter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="henu.xmh.pojo.Chapter" >
+    insert into chapter (chapter_id, voiceURL, album_id, 
+      chapter_name, size, time_long
+      )
+    values (#{chapterId,jdbcType=VARCHAR}, #{voiceurl,jdbcType=VARCHAR}, #{albumId,jdbcType=VARCHAR}, 
+      #{chapterName,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, #{timeLong,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="henu.xmh.pojo.Chapter" >
+    insert into chapter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chapterId != null" >
+        chapter_id,
+      </if>
+      <if test="voiceurl != null" >
+        voiceURL,
+      </if>
+      <if test="albumId != null" >
+        album_id,
+      </if>
+      <if test="chapterName != null" >
+        chapter_name,
+      </if>
+      <if test="size != null" >
+        size,
+      </if>
+      <if test="timeLong != null" >
+        time_long,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chapterId != null" >
+        #{chapterId,jdbcType=VARCHAR},
+      </if>
+      <if test="voiceurl != null" >
+        #{voiceurl,jdbcType=VARCHAR},
+      </if>
+      <if test="albumId != null" >
+        #{albumId,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterName != null" >
+        #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null" >
+        #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="timeLong != null" >
+        #{timeLong,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="henu.xmh.pojo.ChapterExample" resultType="java.lang.Integer" >
+    select count(*) from chapter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update chapter
+    <set >
+      <if test="record.chapterId != null" >
+        chapter_id = #{record.chapterId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.voiceurl != null" >
+        voiceURL = #{record.voiceurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.albumId != null" >
+        album_id = #{record.albumId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chapterName != null" >
+        chapter_name = #{record.chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.size != null" >
+        size = #{record.size,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timeLong != null" >
+        time_long = #{record.timeLong,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update chapter
+    set chapter_id = #{record.chapterId,jdbcType=VARCHAR},
+      voiceURL = #{record.voiceurl,jdbcType=VARCHAR},
+      album_id = #{record.albumId,jdbcType=VARCHAR},
+      chapter_name = #{record.chapterName,jdbcType=VARCHAR},
+      size = #{record.size,jdbcType=VARCHAR},
+      time_long = #{record.timeLong,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="henu.xmh.pojo.Chapter" >
+    update chapter
+    <set >
+      <if test="voiceurl != null" >
+        voiceURL = #{voiceurl,jdbcType=VARCHAR},
+      </if>
+      <if test="albumId != null" >
+        album_id = #{albumId,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterName != null" >
+        chapter_name = #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null" >
+        size = #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="timeLong != null" >
+        time_long = #{timeLong,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where chapter_id = #{chapterId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="henu.xmh.pojo.Chapter" >
+    update chapter
+    set voiceURL = #{voiceurl,jdbcType=VARCHAR},
+      album_id = #{albumId,jdbcType=VARCHAR},
+      chapter_name = #{chapterName,jdbcType=VARCHAR},
+      size = #{size,jdbcType=VARCHAR},
+      time_long = #{timeLong,jdbcType=VARCHAR}
+    where chapter_id = #{chapterId,jdbcType=VARCHAR}
+  </update>
+</mapper>

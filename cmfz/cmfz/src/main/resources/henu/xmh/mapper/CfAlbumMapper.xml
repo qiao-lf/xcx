@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="henu.xmh.dao.CfAlbumMapper" >
+  <resultMap id="BaseResultMap" type="henu.xmh.pojo.CfAlbum" >
+    <id column="album_id" property="albumId" jdbcType="VARCHAR" />
+    <result column="album_name" property="albumName" jdbcType="VARCHAR" />
+    <result column="album_cover" property="albumCover" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="announcer" property="announcer" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+    <result column="alibum_date" property="alibumDate" jdbcType="TIMESTAMP" />
+    <result column="album_num" property="albumNum" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="henu.xmh.pojo.CfAlbum" extends="BaseResultMap" >
+    <result column="summary" property="summary" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    album_id, album_name, album_cover, author, announcer, score, alibum_date, album_num
+  </sql>
+  <sql id="Blob_Column_List" >
+    summary
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="henu.xmh.pojo.CfAlbumExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cf_album
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="henu.xmh.pojo.CfAlbumExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cf_album
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cf_album
+    where album_id = #{albumId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from cf_album
+    where album_id = #{albumId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="henu.xmh.pojo.CfAlbumExample" >
+    delete from cf_album
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="henu.xmh.pojo.CfAlbum" >
+    insert into cf_album (album_id, album_name, album_cover, 
+      author, announcer, score, 
+      alibum_date, album_num, summary
+      )
+    values (#{albumId,jdbcType=VARCHAR}, #{albumName,jdbcType=VARCHAR}, #{albumCover,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{announcer,jdbcType=VARCHAR}, #{score,jdbcType=DOUBLE}, 
+      #{alibumDate,jdbcType=TIMESTAMP}, #{albumNum,jdbcType=INTEGER}, #{summary,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="henu.xmh.pojo.CfAlbum" >
+    insert into cf_album
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="albumId != null" >
+        album_id,
+      </if>
+      <if test="albumName != null" >
+        album_name,
+      </if>
+      <if test="albumCover != null" >
+        album_cover,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="announcer != null" >
+        announcer,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="alibumDate != null" >
+        alibum_date,
+      </if>
+      <if test="albumNum != null" >
+        album_num,
+      </if>
+      <if test="summary != null" >
+        summary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="albumId != null" >
+        #{albumId,jdbcType=VARCHAR},
+      </if>
+      <if test="albumName != null" >
+        #{albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="albumCover != null" >
+        #{albumCover,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="announcer != null" >
+        #{announcer,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="alibumDate != null" >
+        #{alibumDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="albumNum != null" >
+        #{albumNum,jdbcType=INTEGER},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="henu.xmh.pojo.CfAlbumExample" resultType="java.lang.Integer" >
+    select count(*) from cf_album
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cf_album
+    <set >
+      <if test="record.albumId != null" >
+        album_id = #{record.albumId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.albumName != null" >
+        album_name = #{record.albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.albumCover != null" >
+        album_cover = #{record.albumCover,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.announcer != null" >
+        announcer = #{record.announcer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=DOUBLE},
+      </if>
+      <if test="record.alibumDate != null" >
+        alibum_date = #{record.alibumDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.albumNum != null" >
+        album_num = #{record.albumNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.summary != null" >
+        summary = #{record.summary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update cf_album
+    set album_id = #{record.albumId,jdbcType=VARCHAR},
+      album_name = #{record.albumName,jdbcType=VARCHAR},
+      album_cover = #{record.albumCover,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      announcer = #{record.announcer,jdbcType=VARCHAR},
+      score = #{record.score,jdbcType=DOUBLE},
+      alibum_date = #{record.alibumDate,jdbcType=TIMESTAMP},
+      album_num = #{record.albumNum,jdbcType=INTEGER},
+      summary = #{record.summary,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cf_album
+    set album_id = #{record.albumId,jdbcType=VARCHAR},
+      album_name = #{record.albumName,jdbcType=VARCHAR},
+      album_cover = #{record.albumCover,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      announcer = #{record.announcer,jdbcType=VARCHAR},
+      score = #{record.score,jdbcType=DOUBLE},
+      alibum_date = #{record.alibumDate,jdbcType=TIMESTAMP},
+      album_num = #{record.albumNum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="henu.xmh.pojo.CfAlbum" >
+    update cf_album
+    <set >
+      <if test="albumName != null" >
+        album_name = #{albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="albumCover != null" >
+        album_cover = #{albumCover,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="announcer != null" >
+        announcer = #{announcer,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="alibumDate != null" >
+        alibum_date = #{alibumDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="albumNum != null" >
+        album_num = #{albumNum,jdbcType=INTEGER},
+      </if>
+      <if test="summary != null" >
+        summary = #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where album_id = #{albumId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="henu.xmh.pojo.CfAlbum" >
+    update cf_album
+    set album_name = #{albumName,jdbcType=VARCHAR},
+      album_cover = #{albumCover,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      announcer = #{announcer,jdbcType=VARCHAR},
+      score = #{score,jdbcType=DOUBLE},
+      alibum_date = #{alibumDate,jdbcType=TIMESTAMP},
+      album_num = #{albumNum,jdbcType=INTEGER},
+      summary = #{summary,jdbcType=LONGVARCHAR}
+    where album_id = #{albumId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="henu.xmh.pojo.CfAlbum" >
+    update cf_album
+    set album_name = #{albumName,jdbcType=VARCHAR},
+      album_cover = #{albumCover,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      announcer = #{announcer,jdbcType=VARCHAR},
+      score = #{score,jdbcType=DOUBLE},
+      alibum_date = #{alibumDate,jdbcType=TIMESTAMP},
+      album_num = #{albumNum,jdbcType=INTEGER}
+    where album_id = #{albumId,jdbcType=VARCHAR}
+  </update>
+</mapper>

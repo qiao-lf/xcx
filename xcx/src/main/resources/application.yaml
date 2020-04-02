@@ -1,0 +1,38 @@
+#服务器相关配置
+server:
+  port: 8989
+  servlet:
+    context-path: /xcx
+    jsp:
+      init-parameters:
+        development：true
+#Spring 相关配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: 520Qiao.
+    url: jdbc:mysql://101.37.174.26:3306/bs?characterEncoding=UTF-8&serverTimezone=GMT
+  mvc:
+    view:
+      suffix: .jsp
+      prefix: /
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 51MB
+  redis:
+    host: 101.37.174.26
+    port: 6739
+    password: qiaoredis
+    database: 3
+    timeout: 50000
+#mybatis相关配置
+mybatis:
+  type-aliases-package: com.qiao.xcx.entity
+  mapper-locations: classpath:com/qiao/xcx/mapper/*Mapper.xml
+# 日志
+logging:
+  level:
+    com.qiao.xcx.dao: debug

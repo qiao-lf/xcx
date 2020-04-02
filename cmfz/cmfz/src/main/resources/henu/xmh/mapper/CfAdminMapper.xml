@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="henu.xmh.dao.CfAdminMapper" >
+  <resultMap id="BaseResultMap" type="henu.xmh.pojo.CfAdmin" >
+    <id column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="Admin_Roles_Resources" type="henu.xmh.pojo.CfAdmin" extends="BaseResultMap">
+    <collection property="roles" ofType="henu.xmh.pojo.Role">
+      <id column="role_id" property="roleId" />
+      <result column="role_name" property="roleName"/>
+      <collection property="resources" ofType="henu.xmh.pojo.Resource">
+        <id column="resource_id" property="resourceId"/>
+        <result column="resource_name" property="resourceName"/>
+      </collection>
+    </collection>
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    username, password
+  </sql>
+  <sql id="Admin_Roles_Resources_List" >
+    a.username username,a.`password` `password`,
+    r.role_id role_id,r.role_name role_name,
+    re.resource_id resource_id,re.resource_name resource_name
+  </sql>
+
+  <!--1.查询管理员的角色和权限(分页查询||条件查询)(5表联查)-->
+  <select id="selectCfAdminRolesAndResourcesForPage" resultMap="Admin_Roles_Resources" parameterType="henu.xmh.pojo.CfAdminExample">
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Admin_Roles_Resources_List"></include>
+    from cf_admin a
+    left join admin_role ar on a.username = ar.username
+    left join role r on ar.role_id = r.role_id
+    left join role_resource rre on r.role_id = rre.role_id
+    left join resource re on rre.resource_id = re.resource_id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="beginValue != null">
+      limit #{beginValue},#{pageSize}
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <!--2.查询管理员的所有角色信息，以及用户角色的权限信息（根据username查询）(5表联查)-->
+  <select id="selectCfAdminRolesAndResourcesByUsername" resultMap="Admin_Roles_Resources" parameterType="java.lang.String">
+    select
+    <include refid="Admin_Roles_Resources_List"></include>
+    from cf_admin a
+    left join admin_role ar on a.username = ar.username
+    left join role r on ar.role_id = r.role_id
+    left join role_resource rre on r.role_id = rre.role_id
+    left join resource re on rre.resource_id = re.resource_id
+    where a.username=#{username}
+  </select>
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="henu.xmh.pojo.CfAdminExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cf_admin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from cf_admin
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from cf_admin
+    where username = #{username,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="henu.xmh.pojo.CfAdminExample" >
+    delete from cf_admin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="henu.xmh.pojo.CfAdmin" >
+    insert into cf_admin (username, password)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="henu.xmh.pojo.CfAdmin" >
+    insert into cf_admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="henu.xmh.pojo.CfAdminExample" resultType="java.lang.Integer" >
+    select count(*) from cf_admin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cf_admin
+    <set >
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cf_admin
+    set username = #{record.username,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="henu.xmh.pojo.CfAdmin" >
+    update cf_admin
+    <set >
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where username = #{username,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="henu.xmh.pojo.CfAdmin" >
+    update cf_admin
+    set password = #{password,jdbcType=VARCHAR}
+    where username = #{username,jdbcType=VARCHAR}
+  </update>
+</mapper>

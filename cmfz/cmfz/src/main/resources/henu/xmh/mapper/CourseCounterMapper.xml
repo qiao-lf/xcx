@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="henu.xmh.dao.CourseCounterMapper" >
+  <resultMap id="BaseResultMap" type="henu.xmh.pojo.CourseCounter" >
+    <id column="counter_id" property="counterId" jdbcType="VARCHAR" />
+    <result column="counter_name" property="counterName" jdbcType="VARCHAR" />
+    <result column="counter_num" property="counterNum" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="course_id" property="courseId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    counter_id, counter_name, counter_num, create_time, course_id, user_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="henu.xmh.pojo.CourseCounterExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from course_counter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from course_counter
+    where counter_id = #{counterId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from course_counter
+    where counter_id = #{counterId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="henu.xmh.pojo.CourseCounterExample" >
+    delete from course_counter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="henu.xmh.pojo.CourseCounter" >
+    insert into course_counter (counter_id, counter_name, counter_num, 
+      create_time, course_id, user_id
+      )
+    values (#{counterId,jdbcType=VARCHAR}, #{counterName,jdbcType=VARCHAR}, #{counterNum,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{courseId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="henu.xmh.pojo.CourseCounter" >
+    insert into course_counter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="counterId != null" >
+        counter_id,
+      </if>
+      <if test="counterName != null" >
+        counter_name,
+      </if>
+      <if test="counterNum != null" >
+        counter_num,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="counterId != null" >
+        #{counterId,jdbcType=VARCHAR},
+      </if>
+      <if test="counterName != null" >
+        #{counterName,jdbcType=VARCHAR},
+      </if>
+      <if test="counterNum != null" >
+        #{counterNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="henu.xmh.pojo.CourseCounterExample" resultType="java.lang.Integer" >
+    select count(*) from course_counter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update course_counter
+    <set >
+      <if test="record.counterId != null" >
+        counter_id = #{record.counterId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.counterName != null" >
+        counter_name = #{record.counterName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.counterNum != null" >
+        counter_num = #{record.counterNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.courseId != null" >
+        course_id = #{record.courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update course_counter
+    set counter_id = #{record.counterId,jdbcType=VARCHAR},
+      counter_name = #{record.counterName,jdbcType=VARCHAR},
+      counter_num = #{record.counterNum,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      course_id = #{record.courseId,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="henu.xmh.pojo.CourseCounter" >
+    update course_counter
+    <set >
+      <if test="counterName != null" >
+        counter_name = #{counterName,jdbcType=VARCHAR},
+      </if>
+      <if test="counterNum != null" >
+        counter_num = #{counterNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseId != null" >
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where counter_id = #{counterId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="henu.xmh.pojo.CourseCounter" >
+    update course_counter
+    set counter_name = #{counterName,jdbcType=VARCHAR},
+      counter_num = #{counterNum,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR}
+    where counter_id = #{counterId,jdbcType=VARCHAR}
+  </update>
+</mapper>

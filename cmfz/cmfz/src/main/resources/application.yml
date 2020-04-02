@@ -1,0 +1,38 @@
+
+server: #配置server相关
+  servlet:
+    context-path: /cmfz
+    jsp:
+      init-parameters:
+        development: true
+  port: 8989
+spring:
+  datasource: #数据源相关
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cf?characterEncoding=UTF-8&serverTimezone=GMT&userSSL=false
+    username: root
+    password: password
+    type: com.alibaba.druid.pool.DruidDataSource
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 20MB #最大文件上传大小
+  redis: #redis相关配置
+    host: 47.97.208.42
+    port: 7000
+    database: 0
+  data:
+    elasticsearch: #es相关配置
+      cluster-nodes: 47.97.208.42:9300
+
+mybatis:
+  mapper-locations: classpath*:henu/xmh/mapper/*.xml
+  type-aliases-package: henu.xmh.pojo
+logging:
+  level:
+    root: info
+    henu.xmh.dao: debug

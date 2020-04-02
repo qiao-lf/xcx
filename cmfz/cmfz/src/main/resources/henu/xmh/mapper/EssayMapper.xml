@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="henu.xmh.dao.EssayMapper" >
+  <resultMap id="BaseResultMap" type="henu.xmh.pojo.Essay" >
+    <id column="essay_id" property="essayId" jdbcType="VARCHAR" />
+    <result column="guru_id" property="guruId" jdbcType="VARCHAR" />
+    <result column="essay_time" property="essayTime" jdbcType="TIMESTAMP" />
+    <result column="essay_cover" property="essayCover" jdbcType="VARCHAR" />
+    <result column="essay_tittle" property="essayTittle" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="henu.xmh.pojo.Essay" extends="BaseResultMap" >
+    <result column="essay_content" property="essayContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <!--表连接的ResultMap-->
+  <resultMap id="ResultMapForLeftJoinGuru" type="Essay" extends="BaseResultMap">
+    <result column="essay_content" property="essayContent" jdbcType="LONGVARCHAR" />
+    <association property="guru" javaType="Guru">
+      <id column="guru_id" property="guruId" jdbcType="VARCHAR" />
+      <result column="guru_name" property="guruName" jdbcType="VARCHAR" />
+      <result column="guru_image" property="guruImage" jdbcType="VARCHAR" />
+      <result column="guru_nickname" property="guruNickname" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    essay_id, guru_id, essay_time, essay_cover, essay_tittle, author
+  </sql>
+  <sql id="Blob_Column_List" >
+    essay_content
+  </sql>
+  <sql id="Left_Join_Guru_List">
+    e.essay_id essay_id, e.guru_id guru_id, e.essay_time ssay_time, e.essay_cover essay_cover, e.essay_tittle essay_tittle, e.author author, e.essay_content essay_content,
+    e.guru_id  guru_id, g.guru_name guru_name, g.guru_image guru_image, g.guru_nickname guru_nickname
+  </sql>
+  <select id="selectByExampleLeftJoinGuru" resultMap="ResultMapForLeftJoinGuru" parameterType="henu.xmh.pojo.EssayExample">
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Left_Join_Guru_List"></include>
+    from essay e left join guru g on e.guru_id = g.guru_id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="beginValue != null">
+      limit #{beginValue},#{pageSize}
+    </if>
+
+  </select>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="henu.xmh.pojo.EssayExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from essay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="henu.xmh.pojo.EssayExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from essay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from essay
+    where essay_id = #{essayId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from essay
+    where essay_id = #{essayId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="henu.xmh.pojo.EssayExample" >
+    delete from essay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="henu.xmh.pojo.Essay" >
+    insert into essay (essay_id, guru_id, essay_time, 
+      essay_cover, essay_tittle, author, 
+      essay_content)
+    values (#{essayId,jdbcType=VARCHAR}, #{guruId,jdbcType=VARCHAR}, #{essayTime,jdbcType=TIMESTAMP}, 
+      #{essayCover,jdbcType=VARCHAR}, #{essayTittle,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{essayContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="henu.xmh.pojo.Essay" >
+    insert into essay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="essayId != null" >
+        essay_id,
+      </if>
+      <if test="guruId != null" >
+        guru_id,
+      </if>
+      <if test="essayTime != null" >
+        essay_time,
+      </if>
+      <if test="essayCover != null" >
+        essay_cover,
+      </if>
+      <if test="essayTittle != null" >
+        essay_tittle,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="essayContent != null" >
+        essay_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="essayId != null" >
+        #{essayId,jdbcType=VARCHAR},
+      </if>
+      <if test="guruId != null" >
+        #{guruId,jdbcType=VARCHAR},
+      </if>
+      <if test="essayTime != null" >
+        #{essayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="essayCover != null" >
+        #{essayCover,jdbcType=VARCHAR},
+      </if>
+      <if test="essayTittle != null" >
+        #{essayTittle,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="essayContent != null" >
+        #{essayContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="henu.xmh.pojo.EssayExample" resultType="java.lang.Integer" >
+    select count(*) from essay
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update essay
+    <set >
+      <if test="record.essayId != null" >
+        essay_id = #{record.essayId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.guruId != null" >
+        guru_id = #{record.guruId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.essayTime != null" >
+        essay_time = #{record.essayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.essayCover != null" >
+        essay_cover = #{record.essayCover,jdbcType=VARCHAR},
+      </if>
+      <if test="record.essayTittle != null" >
+        essay_tittle = #{record.essayTittle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.essayContent != null" >
+        essay_content = #{record.essayContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update essay
+    set essay_id = #{record.essayId,jdbcType=VARCHAR},
+      guru_id = #{record.guruId,jdbcType=VARCHAR},
+      essay_time = #{record.essayTime,jdbcType=TIMESTAMP},
+      essay_cover = #{record.essayCover,jdbcType=VARCHAR},
+      essay_tittle = #{record.essayTittle,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      essay_content = #{record.essayContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update essay
+    set essay_id = #{record.essayId,jdbcType=VARCHAR},
+      guru_id = #{record.guruId,jdbcType=VARCHAR},
+      essay_time = #{record.essayTime,jdbcType=TIMESTAMP},
+      essay_cover = #{record.essayCover,jdbcType=VARCHAR},
+      essay_tittle = #{record.essayTittle,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="henu.xmh.pojo.Essay" >
+    update essay
+    <set >
+      <if test="guruId != null" >
+        guru_id = #{guruId,jdbcType=VARCHAR},
+      </if>
+      <if test="essayTime != null" >
+        essay_time = #{essayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="essayCover != null" >
+        essay_cover = #{essayCover,jdbcType=VARCHAR},
+      </if>
+      <if test="essayTittle != null" >
+        essay_tittle = #{essayTittle,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="essayContent != null" >
+        essay_content = #{essayContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where essay_id = #{essayId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="henu.xmh.pojo.Essay" >
+    update essay
+    set guru_id = #{guruId,jdbcType=VARCHAR},
+      essay_time = #{essayTime,jdbcType=TIMESTAMP},
+      essay_cover = #{essayCover,jdbcType=VARCHAR},
+      essay_tittle = #{essayTittle,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      essay_content = #{essayContent,jdbcType=LONGVARCHAR}
+    where essay_id = #{essayId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="henu.xmh.pojo.Essay" >
+    update essay
+    set guru_id = #{guruId,jdbcType=VARCHAR},
+      essay_time = #{essayTime,jdbcType=TIMESTAMP},
+      essay_cover = #{essayCover,jdbcType=VARCHAR},
+      essay_tittle = #{essayTittle,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR}
+    where essay_id = #{essayId,jdbcType=VARCHAR}
+  </update>
+</mapper>

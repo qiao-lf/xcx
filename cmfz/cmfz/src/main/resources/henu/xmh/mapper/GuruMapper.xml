@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="henu.xmh.dao.GuruMapper" >
+  <resultMap id="BaseResultMap" type="henu.xmh.pojo.Guru" >
+    <id column="guru_id" property="guruId" jdbcType="VARCHAR" />
+    <result column="guru_name" property="guruName" jdbcType="VARCHAR" />
+    <result column="guru_image" property="guruImage" jdbcType="VARCHAR" />
+    <result column="guru_nickname" property="guruNickname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    guru_id, guru_name, guru_image, guru_nickname
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="henu.xmh.pojo.GuruExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from guru
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="beginValue!=null">
+      limit #{beginValue},#{pageSize}
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from guru
+    where guru_id = #{guruId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from guru
+    where guru_id = #{guruId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="henu.xmh.pojo.GuruExample" >
+    delete from guru
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="henu.xmh.pojo.Guru" >
+    insert into guru (guru_id, guru_name, guru_image, 
+      guru_nickname)
+    values (#{guruId,jdbcType=VARCHAR}, #{guruName,jdbcType=VARCHAR}, #{guruImage,jdbcType=VARCHAR}, 
+      #{guruNickname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="henu.xmh.pojo.Guru" >
+    insert into guru
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guruId != null" >
+        guru_id,
+      </if>
+      <if test="guruName != null" >
+        guru_name,
+      </if>
+      <if test="guruImage != null" >
+        guru_image,
+      </if>
+      <if test="guruNickname != null" >
+        guru_nickname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guruId != null" >
+        #{guruId,jdbcType=VARCHAR},
+      </if>
+      <if test="guruName != null" >
+        #{guruName,jdbcType=VARCHAR},
+      </if>
+      <if test="guruImage != null" >
+        #{guruImage,jdbcType=VARCHAR},
+      </if>
+      <if test="guruNickname != null" >
+        #{guruNickname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="henu.xmh.pojo.GuruExample" resultType="java.lang.Integer" >
+    select count(*) from guru
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update guru
+    <set >
+      <if test="record.guruId != null" >
+        guru_id = #{record.guruId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.guruName != null" >
+        guru_name = #{record.guruName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.guruImage != null" >
+        guru_image = #{record.guruImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.guruNickname != null" >
+        guru_nickname = #{record.guruNickname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update guru
+    set guru_id = #{record.guruId,jdbcType=VARCHAR},
+      guru_name = #{record.guruName,jdbcType=VARCHAR},
+      guru_image = #{record.guruImage,jdbcType=VARCHAR},
+      guru_nickname = #{record.guruNickname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="henu.xmh.pojo.Guru" >
+    update guru
+    <set >
+      <if test="guruName != null" >
+        guru_name = #{guruName,jdbcType=VARCHAR},
+      </if>
+      <if test="guruImage != null" >
+        guru_image = #{guruImage,jdbcType=VARCHAR},
+      </if>
+      <if test="guruNickname != null" >
+        guru_nickname = #{guruNickname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where guru_id = #{guruId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="henu.xmh.pojo.Guru" >
+    update guru
+    set guru_name = #{guruName,jdbcType=VARCHAR},
+      guru_image = #{guruImage,jdbcType=VARCHAR},
+      guru_nickname = #{guruNickname,jdbcType=VARCHAR}
+    where guru_id = #{guruId,jdbcType=VARCHAR}
+  </update>
+</mapper>
