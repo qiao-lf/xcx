@@ -137,7 +137,7 @@
                     <div id="collapseFour" class="panel-collapse collapse">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a a href="javascript:$('#centerLay').load('${page}/jsp/back/article/article.jsp')">文章列表</a>
+                                <li><a  href="javascript:$('#centerLay').load('${page}/html/back/article/article.jsp')">文章列表</a>
                                 </li>
                                 <%--                                <li><a>文章搜索</a></li>--%>
                             </ul>
@@ -213,30 +213,33 @@
 
 
 <script>
-    $(function () {
-        //页面初始化的时候把  模态框中的数据封装
-        $.get("${pageContext.request.contextPath}/guru/showGuruList", function (data) {
-            var option = "<option value='0'>通用文章</option>";
-            data.forEach(function (guru) {
-                option += "<option value='" + guru.id + "'>" + guru.nickName + "</option>"
-            });
-            $("#guruId").html(option);
-        }, "json");
-        $("#status").empty();
-        $("#status").append("<option value='1'>展示</option><option value='2' >冻结</option>");
-    });
+    <%--$(function () {--%>
+    <%--    //页面初始化的时候把  模态框中的数据封装--%>
+    <%--    $.get("${pageContext.request.contextPath}/guru/showGuruList", function (data) {--%>
+    <%--        var option = "<option value='0'>通用文章</option>";--%>
+    <%--        data.forEach(function (guru) {--%>
+    <%--            option += "<option value='" + guru.id + "'>" + guru.nickName + "</option>"--%>
+    <%--        });--%>
+    <%--        $("#guruId").html(option);--%>
+    <%--    }, "json");--%>
+    <%--    $("#status").empty();--%>
+    <%--    $("#status").append("<option value='1'>展示</option><option value='2' >冻结</option>");--%>
+    <%--});--%>
     KindEditor.ready(function (K) {
-        window.editor = K.create('#editor_id', {
-            width: '600px',
-            // 1. 指定图片上传路径
-            uploadJson: "${pageContext.request.contextPath}/article/uploadImg",
-            allowFileManager: true,
-            fileManagerJson: "${pageContext.request.contextPath}/article/showAllImgs",
+        window.editor = K.create('#earticle', {
+            width: '300px',
+            afterBlur: function () {
+                this.sync();
+            }
+        });
+        window.editor = K.create('#carticle', {
+            width: '300px',
             afterBlur: function () {
                 this.sync();
             }
         });
     });
+
 </script>
 <!-- KindEditor模态框 -->
 <div class="modal fade" id="kind" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -258,39 +261,27 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">封面</label>
+                        <label class="col-sm-1 control-label">标题解释</label>
                         <div class="col-sm-5">
-                            <input type="file" name="cover" id="cover" placeholder="请选择封面" class="form-control">
+                            <input type="text" name="title" id="ctitle" placeholder="请输入标题解释" class="form-control">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">所属上师</label>
-                        <div class="col-sm-5">
-                            <select class="form-control" name="guruId" id="guruId">
 
-                            </select>
-                        </div>
-                    </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">状态</label>
-                        <div class="col-sm-5">
-                            <select class="form-control" name="status" id="status">
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">文章发布日期</label>
-                        <div class="col-sm-5">
-                            <input type="date" name="publishDate" id="publishDate" placeholder="请输入日期"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
+                        <label class="col-sm-1 control-label">文章详情</label>
                         <div class="col-sm-12">
-                            <textarea id="editor_id" name="content" style="width:700px;height:300px;"></textarea>
+                             <textarea id="earticle" name="earticle" style="width:700px;height:300px;">
+                            </textarea>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">文章解释</label>
+                        <div class="col-sm-12">
+                            <textarea id="carticle" name="carticle" style="width:700px;height:300px;">
+                            </textarea>
+                        </div>
+                    </div>
+
                 </form>
             </div>
             <div class="modal-footer" id="modal_foot">

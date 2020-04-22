@@ -15,10 +15,11 @@ import java.util.Date;
 @Accessors(chain = true)
 public class Article {
     private String id;
-    private String earticle;
-    private String carticle;
     private String title;
     private String ctitle;
+    private String earticle;
+    private String carticle;
+
     @JSONField(format = "yyyy-MM-dd")  //FASTJSON 日期转换
     @DateTimeFormat(pattern = "yyyy-MM-dd")  //数据库日期格式转换
     private Date createdate;
