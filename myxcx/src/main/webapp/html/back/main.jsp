@@ -112,14 +112,14 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion"
                                href="#collapseThree">
-                                <h4>上师管理</h4>
+                                <h4>短句管理</h4>
                             </a>
                         </h4>
                     </div>
                     <div id="collapseThree" class="panel-collapse collapse">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="javascript:$('#centerLay').load('${page}/jsp/back/guru/guru.jsp')">上师信息</a>
+                                <li><a href="javascript:$('#centerLay').load('${page}/html/back/sentence/sentence.jsp')">短句信息</a>
                                 </li>
                             </ul>
                         </div>

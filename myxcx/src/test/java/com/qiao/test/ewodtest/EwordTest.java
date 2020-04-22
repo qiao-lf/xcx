@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest(classes = MyxcxApplication.class)
@@ -41,5 +42,9 @@ public class EwordTest {
        }
 
 
+    }
+    @Test
+    public void t2(){
+        System.out.println(new Date());
     }
 }
