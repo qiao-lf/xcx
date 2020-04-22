@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qiao.dao.EwordsDao">
+
+    <!--  模糊查询  -->
+    <select id="queryLikeEwords" resultType="Ewords">
+        SELECT eword,	cword
+        FROM ewords
+        <where>
+            <if test="flag=='like'">eword like concat(#{ew},'%') </if>
+            <if test="flag=='query'">eword =#{ew}</if>
+        </where>
+        LIMIT 0,10
+    </select>
+</mapper>

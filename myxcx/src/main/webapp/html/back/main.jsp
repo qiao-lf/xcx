@@ -22,7 +22,7 @@
     <script charset="utf-8" src="${page}/kindeditor/lang/zh-CN.js"></script>
     <script charset="UTF-8" src="${page}/echarts/echarts.min.js"></script>
     <script src="${page}/echarts/china.js" charset="UTF-8"></script>
-    <title>持名法舟后台管理系统</title>
+    <title>英语学习小程序后台管理系统</title>
     <style>
         body {
             padding-top: 70px;
@@ -49,13 +49,13 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">持名法舟后台管理系统</a>
+            <a class="navbar-brand" href="#">英语学习小程序后台管理系统</a>
         </div>
         <div>
             <!--向右对齐-->
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="">欢迎:<shiro:principal></shiro:principal></a></li>
-                <li><a id="exit" href="javascript:;">退出登录</a></li>
+                <li><a href="">欢迎:<span style="color: pink;"><shiro:principal></shiro:principal><span style="color: red;"></a></li>
+                <li><a id="exit" href="javascript:;"><span style="color: red;">退出登录</span></a></li>
             </ul>
         </div>
     </div>
@@ -77,14 +77,14 @@
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
                                 <li>
-                                    <a href="javascript:$('#centerLay').load('${page}/jsp/back/user/user.jsp')">用户信息管理</a>
+                                    <a href="javascript:$('#centerLay').load('${page}/html/back/user/user.jsp')">用户信息管理</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:$('#centerLay').load('${page}/jsp/back/user/qushi.jsp')">用户注册趋势</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:$('#centerLay').load('${page}/jsp/back/user/map.jsp')">用户注册分布</a>
-                                </li>
+<%--                                <li>--%>
+<%--                                    <a href="javascript:$('#centerLay').load('${page}/jsp/back/user/qushi.jsp')">用户注册趋势</a>--%>
+<%--                                </li>--%>
+<%--                                <li>--%>
+<%--                                    <a href="javascript:$('#centerLay').load('${page}/jsp/back/user/map.jsp')">用户注册分布</a>--%>
+<%--                                </li>--%>
                             </ul>
                         </div>
                     </div>
@@ -94,14 +94,14 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion"
                                href="#collapseTwo">
-                                <h4>轮播图管理</h4>
+                                <h4>词汇管理</h4>
                             </a>
                         </h4>
                     </div>
                     <div id="collapseTwo" class="panel-collapse collapse">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="javascript:$('#centerLay').load('${page}/jsp/back/banner/banner.jsp')">轮播图信息</a>
+                                <li><a href="javascript:$('#centerLay').load('${page}/html/back/ewords/ewords.jsp')">词汇信息</a>
                                 </li>
                             </ul>
                         </div>
@@ -168,7 +168,7 @@
         <div class="col-xs-10" id="centerLay">
             <div class="container container-fluid">
                 <div class="jumbotron">
-                    <h2>欢迎使用持名法舟后台管理系统！</h2>
+                    <h2>欢迎使用英语学习后台管理系统！</h2>
                 </div>
                 <div id="myCarousel" class="carousel slide">
                     <!-- 轮播（Carousel）指标 -->
@@ -208,7 +208,7 @@
     </div>
 </div>
 <div class="panel-footer navbar-fixed-bottom" style="height:50px;width:100%;clear:both;margin-top:-50px;">
-    <h5 style="text-align: center">百知教育 @baizhiedu.com.cn</h5>
+    <h5 style="text-align: center">乔龙斐私人专用 @xiaoqiaolf@163.com</h5>
 </div>
 
 
