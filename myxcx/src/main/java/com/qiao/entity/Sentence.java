@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,6 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class Sentence implements Serializable {
+    @Id
     private String id;
     private String esentence;
     private String csentence;

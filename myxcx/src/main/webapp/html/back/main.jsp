@@ -150,15 +150,15 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion"
                                href="#collapseFive">
-                                <h4>专辑管理</h4>
+                                <h4>反馈信息管理</h4>
                             </a>
                         </h4>
                     </div>
                     <div id="collapseFive" class="panel-collapse collapse">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a a
-                                       href="javascript:$('#centerLay').load('${page}/jsp/back/album/album.jsp')">专辑信息</a>
+                                <li><a
+                                       href="javascript:$('#centerLay').load('${page}/html/back/feedback/feedback.jsp')">反馈信息列表</a>
                                 </li>
                             </ul>
                         </div>

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Id;
 import java.util.Date;
 
 @Data
@@ -14,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class Article {
+    @Id
     private String id;
     private String title;
     private String ctitle;
