@@ -1,46 +1,24 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: qiao
-  Date: 2019/12/1
-  Time: 22:22
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <script type="text/javascript">
     $(function () {
         $("#userTable").jqGrid(
             {
-                url: "${pageContext.request.contextPath}/user/showAllUser",
+                url: "${pageContext.request.contextPath}/us/showAllUserByPage",
                 datatype: "json",
-                colNames: ['编号', '电话', '密码', "安全码", '状态', '用户头像', '用户名字', '用户昵称', '性别', '个性签名', '所在地区', '注册时间', '最后登录时间', '操作'],
+                colNames: ['编号', '电话', '密码', "昵称", '真实姓名', '状态', '注册信息', '操作'],
                 colModel: [
                     {name: 'id', align: "center", hidden: true},
                     {name: 'phone', align: "center"},
                     {name: 'password', align: "center"},
-                    {name: 'salt', algin: "center",},
-                    {
-                        name: 'status', align: "center", formatter: function (data) {
-                            if (data == "1") {
-                                return "活跃";
-                            } else return "冻结";
-                        }
-                    },
-                    {
-                        name: 'photo', align: "center", formatter: function (data) {
-                            return "<img style='width: 100%' src='" + data + "'/>"
-                        }
-                    },
+                    {name: 'nickname', algin: "center",},
                     {name: 'name', align: "center"},
-                    {name: 'nickName', align: "center",},
-                    {name: 'sex', align: "center",},
-                    {name: 'sign', align: "center",},
-                    {name: 'location', align: "center",},
-                    {name: 'rigestDate', align: "center",},
-                    {name: 'lastLogin', align: "center",},
+                    {name: 'status', align: "center",},
+                    {name: 'createdata', align: "center",},
                     {
                         name: 'option', formatter: function (cellvalue, options, rowObject) {
                             var result = '';
-                            result += "<a href='javascript:void(0)' onclick=\"showModel('" + rowObject.id + "')\" class='btn btn-lg' title='查看详情'> <span class='glyphicon glyphicon-th-list'></span></a>";
+                            result += "<a href='javascript:void(0)' onclick=\"updateUserStatus('" + rowObject.id + "')\" class='btn btn-lg' title='修改'> <span class='btn btn-danger'>修改</span></a>";
                             return result;
                         }
                     },
@@ -55,7 +33,7 @@
                 autowidth: true,
                 multiselect: true,
                 height: "500px",
-                editurl: "${pageContext.request.contextPath}/user/editUser"
+                editurl: "${pageContext.request.contextPath}/us/editUser"
             });
         $("#userTable").jqGrid('navGrid', "#userPager", {
             add: false,
@@ -64,7 +42,20 @@
             //deltext: "删除"
         });
     })
+    function updateUserStatus(s) {
+        console.log(s);
+        $.ajax({
+            url:"${pageContext.request.contextPath}/us/updateStatus",
+            type:"POST",
+            datatype:"JSON",
+            data: {id:s},
+            success:function (data) {
+                console.log(data);
+                jQuery("#userTable").trigger("reloadGrid");
+            }
+        })
 
+    }
 </script>
 <div class="page-header">
     <h2><strong>用户信息管理</strong></h2>
